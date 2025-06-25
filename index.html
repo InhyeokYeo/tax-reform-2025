@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>インフォグラフィック：日本の税制と社会保障改革案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        .kpi-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+        .kpi-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+        .kpi-description {
+            font-size: 0.9rem;
+            color: #4A5568;
+            margin-top: 0.5rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #3357FF;
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding-bottom: 2rem;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 2rem;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 2rem;
+            text-align: left;
+        }
+        .timeline-dot {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 4px solid #3357FF;
+            border-radius: 50%;
+        }
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -10px;
+            transform: translateX(0%);
+        }
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+            transform: translateX(0%);
+        }
+        .section-title-container {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            border-bottom: 4px solid #3357FF;
+        }
+    </style>
+</head>
+<body class="text-[#34495E]">
+
+    <!-- Palette: Energetic & Playful, Confirmation: NO SVG, NO MERMAID JS USED -->
+
+    <header class="bg-[#34495E] text-white text-center py-12 px-4">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">日本の未来を再設計する</h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto">税と社会保障の抜本改革案インフォグラフィック</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+
+        <section id="crisis" class="my-16">
+            <div class="section-title-container">
+                <h2 class="text-3xl font-bold section-title">なぜ今、抜本改革が必要なのか？</h2>
+                <p class="text-center max-w-3xl mx-auto mt-4">日本は複数の深刻な課題に直面しており、対症療法では解決できない構造的な問題を抱えています。</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="kpi-card h-full">
+                    <div class="kpi-icon">👴</div>
+                    <h3 class="kpi-title">年金・医療費の膨張</h3>
+                    <p class="kpi-description">給付が年齢一律で調整が弱く、若者世代の負担感が増大。</p>
+                </div>
+                <div class="kpi-card h-full">
+                    <div class="kpi-icon">📉</div>
+                    <h3 class="kpi-title">少子化と経済停滞</h3>
+                    <p class="kpi-description">重い税負担で可処分所得が伸びず、消費や出生意欲を抑制。</p>
+                </div>
+                <div class="kpi-card h-full">
+                    <div class="kpi-icon">🏢</div>
+                    <h3 class="kpi-title">低い労働生産性</h3>
+                    <p class="kpi-description">硬直的な制度が、柔軟な働き方や生産性向上を阻害。</p>
+                </div>
+                <div class="kpi-card h-full">
+                    <div class="kpi-icon">⚖️</div>
+                    <h3 class="kpi-title">根強い男女格差</h3>
+                    <p class="kpi-description">就労を抑制する税制が、女性のキャリア形成を妨げる一因に。</p>
+                </div>
+                <div class="kpi-card h-full">
+                    <div class="kpi-icon">😥</div>
+                    <h3 class="kpi-title">「努力が報われない」社会</h3>
+                    <p class="kpi-description">複雑な制度が「本当の負担」を見えなくし、将来不安を増幅。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="deeper-problem-analysis" class="my-16">
+            <div class="section-title-container">
+                 <h2 class="text-3xl font-bold section-title">問題の核心：日本の制度が抱える「4つの歪み」</h2>
+                 <p class="text-center max-w-3xl mx-auto mt-4">現行制度は、意図せずして成長を妨げ、不公平感を生み出す構造的な欠陥を内包しています。</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#FF5733] flex flex-col">
+                    <div class="flex-shrink-0">
+                        <div class="text-4xl mb-4">😫</div>
+                        <h3 class="text-lg font-bold mb-2">1. 高負担なのに、低実感</h3>
+                    </div>
+                    <div class="flex-grow flex flex-col">
+                        <p class="text-sm text-gray-700">負担は重くのしかかる一方、将来への信頼は低い。この世代間の意識の断絶が、制度への不信感を増幅させています。</p>
+                         <div class="chart-container h-48 mt-auto pt-4">
+                            <canvas id="burdenVsAnxietyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#F1C40F] flex flex-col">
+                    <div class="flex-shrink-0">
+                        <div class="text-4xl mb-4">👻</div>
+                        <h3 class="text-lg font-bold mb-2">2. 見えない税金「社会保険料」</h3>
+                    </div>
+                    <div class="flex-grow flex flex-col">
+                        <p class="text-sm text-gray-700 mb-4">社会保険料は実質的な強制徴収であり、"見えない税金"と化しています。この不透明さが制度への不信感を招き、企業の雇用コストを増大させています。</p>
+                        <div class="mt-auto pt-4 border-t w-full">
+                             <h4 class="font-bold mb-2 text-sm text-center">給与明細のイメージ</h4>
+                             <div class="w-full bg-gray-200 rounded-lg p-2 text-left text-xs sm:text-sm">
+                                 <div>基本給........... 300,000円</div>
+                                 <div class="text-red-600">控除(税).......... -20,000円</div>
+                                 <div class="text-red-600 opacity-60">控除(社会保険)... -45,000円</div>
+                                 <hr class="my-1 border-gray-400">
+                                 <div class="font-bold">手取り........... 235,000円</div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#33FF57] flex flex-col">
+                     <div class="flex-shrink-0">
+                        <div class="text-4xl mb-4">👨‍🦳🆚👶</div>
+                        <h3 class="text-lg font-bold mb-2">3. 「年齢」による世代間不公平</h3>
+                     </div>
+                     <div class="flex-grow flex flex-col">
+                        <p class="text-sm text-gray-700">「高齢者＝弱者」という画一的な前提は、もはや実態と乖離しています。資産状況に関わらず給付を行う制度は、若者世代に一方的な負担を強いる構造です。</p>
+                        <div class="chart-container h-48 mt-auto pt-4">
+                            <canvas id="socialSecuritySpendingChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-gray-600 mt-2 font-bold">社会保障給付費の内訳</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-[#33A1FF] flex flex-col">
+                    <div class="flex-shrink-0">
+                        <div class="text-4xl mb-4">✈️</div>
+                        <h3 class="text-lg font-bold mb-2">4. 成功を罰する累進課税</h3>
+                    </div>
+                    <div class="flex-grow flex flex-col">
+                         <p class="text-sm text-gray-700">高すぎる所得税率は、労働や挑戦への意欲を削ぎ、優秀な人材の海外流出を招いています。結果として、国全体の活力が失われかねません。</p>
+                         <div class="chart-container h-48 mt-auto pt-4">
+                            <canvas id="progressiveTaxChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision" class="my-16 bg-[#3357FF] text-white rounded-xl p-8 md:p-12">
+             <div class="section-title-container mb-8">
+                <h2 class="text-3xl font-bold section-title" style="border-color: white;">改革が目指す、新しい日本の設計原則</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-5xl mb-3">💪</div>
+                    <h3 class="text-2xl font-bold mb-2">努力が報われる</h3>
+                    <p>労働・起業・投資への意欲を削がない、公平なインセンティブ設計。</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-3">🌱</div>
+                    <h3 class="text-2xl font-bold mb-2">機会の公平</h3>
+                    <p>誰もが挑戦・再挑戦できる社会。教育への投資を強化。</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-3">🤝</div>
+                    <h3 class="text-2xl font-bold mb-2">真の安心を届ける</h3>
+                    <p>年齢や属性でなく「真の困窮度」に応じた、透明なセーフティネット。</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-3">✨</div>
+                    <h3 class="text-2xl font-bold mb-2">究極のシンプル</h3>
+                    <p>負担と給付の関係が明確で、誰もが納得できるワンストップの仕組み。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="new-tax-design" class="my-16">
+            <div class="section-title-container">
+                 <h2 class="text-3xl font-bold section-title">新税制の設計案：合理性・公平性・透明性の追求</h2>
+                 <p class="text-center max-w-3xl mx-auto mt-4">上記の原則に基づき、税制の構造そのものをシンプルで合理的なものへと転換します。</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md h-full">
+                    <h3 class="text-xl font-bold mb-4 text-center">① 直接税・社会保険料の原則廃止</h3>
+                    <p class="text-sm text-gray-600 mb-4">労働や投資といった「価値創造活動」へのペナルティとなる税をなくし、経済活動を活性化させます。</p>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <p class="font-bold text-red-800 mb-2">【廃止対象】</p>
+                        <ul class="text-sm space-y-1">
+                            <li>❌ 所得税・住民税</li>
+                            <li>❌ 相続税・贈与税</li>
+                            <li>❌ 年金・健康保険などの社会保険料</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md h-full">
+                     <h3 class="text-xl font-bold mb-4 text-center">② 消費税への一本化</h3>
+                    <p class="text-sm text-gray-600 mb-4">税源を「消費」に一本化。富裕層ほど消費額が多いため、実質的な累進性を確保しつつ、国民全体の当事者意識を高めます。</p>
+                     <div class="text-center p-4 bg-green-50 rounded-lg">
+                         <p class="font-bold text-green-800">新・基幹税</p>
+                         <p class="text-3xl font-black text-green-900 my-2">消費税 25-30%</p>
+                         <p class="text-xs text-gray-600">※逆進性対策をセットで導入</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md h-full">
+                    <h3 class="text-xl font-bold mb-4 text-center">③ 再分配は「給付」で明確化</h3>
+                    <p class="text-sm text-gray-600 mb-4">集めた税金の使い道を明確にするため、社会保障は「直接給付」に切り替えます。これにより、誰にいくら使われるかが透明になります。</p>
+                    <div class="text-center p-4">
+                        <span class="text-lg font-bold">税収</span>
+                        <span class="text-2xl mx-2">➡️</span>
+                        <span class="text-lg font-bold">国</span>
+                         <span class="text-2xl mx-2">➡️</span>
+                         <span class="text-lg font-bold">国民</span>
+                        <p class="text-xs mt-2">（例：基礎給付、医療・介護ニーズに応じた追加支援など）</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md h-full">
+                    <h3 class="text-xl font-bold mb-4 text-center">④ 企業負担ゼロで雇用創出</h3>
+                    <p class="text-sm text-gray-600 mb-4">企業の社会保険料負担を廃止し、法人税も最低限にすることで、企業のコストを大幅に削減。国内投資と雇用創出を強力に後押しします。</p>
+                     <div class="text-center p-4 bg-blue-50 rounded-lg">
+                         <p class="font-bold text-blue-800">企業の成長を促進</p>
+                         <ul class="text-sm space-y-1 mt-2">
+                             <li>📈 国内投資の活性化</li>
+                             <li>📈 雇用の創出と賃上げ</li>
+                         </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="risk-management" class="my-16">
+            <div class="section-title-container">
+                <h2 class="text-3xl font-bold section-title">消費税一本化のリスクと対策</h2>
+                <p class="text-center max-w-3xl mx-auto mt-4">大胆な改革にはリスクが伴います。予め対策を設計に組み込むことで、安定した制度移行を目指します。</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md h-full">
+                    <h3 class="text-xl font-bold mb-4">📉 リスク①：景気後退時の税収減</h3>
+                    <p class="text-sm text-gray-600 mb-4">消費が落ち込むと税収が不安定になる可能性があります。</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl font-bold">✅</span>
+                            <div>
+                                <h4 class="font-bold">対策1：歳出の徹底削減</h4>
+                                <p class="text-xs text-gray-600">緊急性の低い公共事業などを一時抑制し、支出をコントロール。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl font-bold">✅</span>
+                            <div>
+                                <h4 class="font-bold">対策2：限定的な追加税制</h4>
+                                <p class="text-xs text-gray-600">超高額所得者や超大企業への時限的な課税を検討。</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl font-bold">✅</span>
+                            <div>
+                                <h4 class="font-bold">対策3：厳格なルールに基づく国債発行</h4>
+                                <p class="text-xs text-gray-600">発行目的を国民生活の維持に限定し、財政規律を担保。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md h-full">
+                    <h3 class="text-xl font-bold mb-4">🛡️ リスク②：低所得者層への負担増（逆進性）</h3>
+                    <p class="text-sm text-gray-600 mb-4">所得に占める消費の割合が高い低所得者層の負担が、相対的に重くなる懸念があります。</p>
+                     <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl font-bold">✅</span>
+                            <div>
+                                <h4 class="font-bold">対策1：食料品などへの軽減税率</h4>
+                                <p class="text-xs text-gray-600">生活必需品の税率を低く（0～10%）設定し、日々の負担を軽減。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-3 text-xl font-bold">✅</span>
+                            <div>
+                                <h4 class="font-bold">対策2：給付付き税額控除</h4>
+                                <p class="text-xs text-gray-600">所得に応じて、算定された税額の一部または全額を現金で給付（還付）。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="blueprint" class="my-16">
+            <div class="section-title-container">
+                 <h2 class="text-3xl font-bold section-title">改革の青写真：歳入と歳出の構造転換</h2>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-center mb-4">歳入の構造変化 (単位：兆円)</h3>
+                    <p class="text-sm text-center text-gray-600 mb-4">労働への課税から消費への課税へ、税源をシフトします。</p>
+                    <div class="chart-container h-96">
+                        <canvas id="revenueSourcesChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-center mb-4">歳出の再配分 (単位：兆円)</h3>
+                    <p class="text-sm text-center text-gray-600 mb-4">社会保障を効率化し、未来への投資（教育・科学）を強化します。</p>
+                    <div class="chart-container h-96">
+                        <canvas id="expenditureComparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="roadmap" class="my-16">
+            <div class="section-title-container">
+                <h2 class="text-3xl font-bold section-title">改革実現へのロードマップ（10カ年計画）</h2>
+            </div>
+            <div class="relative max-w-4xl mx-auto hidden md:block">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="p-4 bg-white rounded-lg shadow-md">
+                            <h4 class="font-bold text-lg text-[#FF5733]">Step 1 (1-2年)</h4>
+                            <p class="text-sm font-bold">意識改革と土台づくり</p>
+                            <p class="text-xs mt-1">マイナンバーによる税・給付の「見える化」を徹底。国民の当事者意識を醸成。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="p-4 bg-white rounded-lg shadow-md">
+                            <h4 class="font-bold text-lg text-[#F1C40F]">Step 2 (2-4年)</h4>
+                            <p class="text-sm font-bold">透明性と税制度の再設計</p>
+                            <p class="text-xs mt-1">社会保険料の"見える化"や新税制の試算ツール提供で、国民の気づきを促し、安心して議論に参加できる土台を築く。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="p-4 bg-white rounded-lg shadow-md">
+                             <h4 class="font-bold text-lg text-[#33FF57]">Step 3 (5-7年)</h4>
+                            <p class="text-sm font-bold">税の一本化に向けた移行準備</p>
+                            <p class="text-xs mt-1">所得税の段階的フラット化と消費税の引き上げを並行。手取りが増える設計で、ソフトランディングを目指す。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="p-4 bg-white rounded-lg shadow-md">
+                           <h4 class="font-bold text-lg text-[#33A1FF]">Step 4 (8-10年)</h4>
+                            <p class="text-sm font-bold">構造の転換フェーズ</p>
+                            <p class="text-xs mt-1">所得税・社会保険料を全面廃止し、税体系を消費税へ一本化。シンプルで公平な構造を完成させる。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                         <div class="timeline-dot"></div>
+                        <div class="p-4 bg-white rounded-lg shadow-md">
+                           <h4 class="font-bold text-lg text-[#3357FF]">Step 5 (10年以降)</h4>
+                            <p class="text-sm font-bold">恒久的な見直し制度</p>
+                            <p class="text-xs mt-1">財政ルールを法制化し、独立機関が制度を監視。持続可能性を担保。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:hidden space-y-4">
+                 <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-[#FF5733]">
+                    <h4 class="font-bold text-lg text-[#FF5733]">Step 1 (1-2年): 意識改革と土台づくり</h4>
+                    <p class="text-xs mt-1">マイナンバーによる税・給付の「見える化」を徹底。国民の当事者意識を醸成。</p>
+                </div>
+                 <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-[#F1C40F]">
+                    <h4 class="font-bold text-lg text-[#F1C40F]">Step 2 (2-4年): 透明性と税制度の再設計</h4>
+                    <p class="text-xs mt-1">社会保険料の"見える化"や新税制の試算ツール提供で、国民の気づきを促し、安心して議論に参加できる土台を築く。</p>
+                </div>
+                 <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-[#33FF57]">
+                     <h4 class="font-bold text-lg text-[#33FF57]">Step 3 (5-7年): 税の一本化に向けた移行準備</h4>
+                    <p class="text-xs mt-1">所得税の段階的フラット化と消費税の引き上げを並行。手取りが増える設計で、ソフトランディングを目指す。</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-[#33A1FF]">
+                     <h4 class="font-bold text-lg text-[#33A1FF]">Step 4 (8-10年): 構造の転換フェーズ</h4>
+                    <p class="text-xs mt-1">所得税・社会保険料を全面廃止し、税体系を消費税へ一本化。シンプルで公平な構造を完成させる。</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow-md border-l-4 border-[#3357FF]">
+                     <h4 class="font-bold text-lg text-[#3357FF]">Step 5 (10年以降): 恒久的な見直し制度</h4>
+                    <p class="text-xs mt-1">財政ルールを法制化し、独立機関が制度を監視。持続可能性を担保。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="promise" class="my-16">
+            <div class="section-title-container">
+                <h2 class="text-3xl font-bold section-title">改革が約束する未来</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-green-800">✅ 目指す社会</h3>
+                    <ul class="space-y-3 list-inside">
+                        <li><span class="font-bold">努力する人を罰しない：</span> 労働・起業意欲の向上</li>
+                        <li><span class="font-bold">機会の公平：</span> 教育・再挑戦コストの低減</li>
+                        <li><span class="font-bold">本当に困る人を助ける：</span> 困窮度に応じた公平な支援</li>
+                        <li><span class="font-bold">シンプルで分かりやすい：</span> 納得感のある税と給付</li>
+                    </ul>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-red-800">❌ 目指さない方向性</h3>
+                     <ul class="space-y-3 list-inside">
+                        <li><span class="font-bold">結果の平等は追求しない：</span> 過度な再分配は行わない</li>
+                        <li><span class="font-bold">稼がない選択を支援しない：</span> 働く努力を求める</li>
+                        <li><span class="font-bold">無条件の高額給付はしない：</span> メリハリのある支援</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#34495E] text-white text-center py-6 px-4">
+        <p class="text-sm">このインフォグラフィックは「日本の税制と社会保障改革提案」に基づき作成されました。</p>
+        <p class="text-xs mt-1">データは提案書内の概算値を参照しています。</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Chart.register(ChartDataLabels);
+
+            const FONT_COLOR = '#34495E';
+            const GRID_COLOR = '#E5E7EB';
+            const PALETTE = ['#FF5733', '#33A1FF', '#33FF57', '#F1C40F', '#A833FF', '#FF33A1'];
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                if (!item) return '';
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join('');
+                }
+                return label;
+            };
+            
+            const commonChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: FONT_COLOR,
+                            font: {
+                                family: "'Noto Sans JP', sans-serif"
+                            },
+                             boxWidth: 15,
+                             padding: 15
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    },
+                    datalabels: {
+                        color: FONT_COLOR,
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { 
+                            color: FONT_COLOR,
+                            font: { family: "'Noto Sans JP', sans-serif" }
+                        },
+                        grid: { color: GRID_COLOR }
+                    },
+                    y: {
+                        ticks: { 
+                            color: FONT_COLOR,
+                            font: { family: "'Noto Sans JP', sans-serif" }
+                        },
+                        grid: { color: GRID_COLOR },
+                        beginAtZero: true
+                    }
+                }
+            };
+            
+            // --- Charts for "4つの歪み" Section ---
+            const burdenVsAnxietyCtx = document.getElementById('burdenVsAnxietyChart')?.getContext('2d');
+            if (burdenVsAnxietyCtx) {
+                 new Chart(burdenVsAnxietyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['負担感(高齢者)', '年金への不安(若者)'],
+                        datasets: [{
+                            data: [72, 75],
+                            backgroundColor: [PALETTE[0], PALETTE[5] + 'CC'],
+                            barThickness: 50,
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        indexAxis: 'y',
+                        scales: { 
+                            x: { max: 100, ticks: { callback: (value) => value + '%' } }, 
+                            y: { grid: { display: false } }
+                        },
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            legend: { display: false },
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'end',
+                                color: FONT_COLOR,
+                                font: { size: 14 },
+                                formatter: (value) => value + '%'
+                            }
+                        }
+                    }
+                });
+            }
+
+            const generationalPrioritiesCtx = document.getElementById('generationalPrioritiesChart')?.getContext('2d');
+            if(generationalPrioritiesCtx) {
+                 new Chart(generationalPrioritiesCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['18-39歳', '40歳以上'],
+                        datasets: [{
+                           label: '最優先事項',
+                           data: [100, 100],
+                           backgroundColor: (context) => {
+                               return context.dataIndex === 0 ? PALETTE[2] : PALETTE[4];
+                           },
+                        }]
+                    },
+                    options: {
+                       ...commonChartOptions,
+                       indexAxis: 'y',
+                       scales: {
+                           x: { display: false, max: 100 },
+                           y: { grid: { display: false } }
+                       },
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            legend: { display: false },
+                            datalabels: {
+                                color: 'white',
+                                font: { weight: 'bold', size: 12 },
+                                formatter: (value, context) => {
+                                    return context.dataIndex === 0 ? '子育て支援' : '年金';
+                                }
+                            }
+                        }
+                   }
+                });
+            }
+
+            const progressiveTaxCtx = document.getElementById('progressiveTaxChart')?.getContext('2d');
+            if(progressiveTaxCtx) {
+                new Chart(progressiveTaxCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['300万', '500万', '1000万', '2000万'],
+                        datasets: [{
+                            label: '実効税率',
+                            data: [15, 20, 30, 50],
+                            borderColor: PALETTE[5],
+                            backgroundColor: PALETTE[5] + '33',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                       ...commonChartOptions,
+                        scales: { 
+                            x: { title: { display: true, text: '所得' } }, 
+                            y: { title: { display: true, text: '税率(%)' }, max: 60 } 
+                        },
+                        plugins: { ...commonChartOptions.plugins, legend: { display: false }, datalabels: { display: false } }
+                    }
+                });
+            }
+
+            const socialSecurityCtx = document.getElementById('socialSecuritySpendingChart')?.getContext('2d');
+            if (socialSecurityCtx) {
+                new Chart(socialSecurityCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['高齢者向け', 'その他'],
+                        datasets: [{
+                            data: [70, 30],
+                            backgroundColor: [PALETTE[2], PALETTE[1]],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        scales: { x: { display: false }, y: { display: false } },
+                        plugins: {
+                           ...commonChartOptions.plugins,
+                           legend: {
+                               ...commonChartOptions.plugins.legend,
+                               labels: {
+                                    ...commonChartOptions.plugins.legend.labels,
+                                    font: { size: 10 }
+                               }
+                           },
+                           datalabels: {
+                               color: 'white',
+                               formatter: (value, ctx) => {
+                                   return value + '%';
+                               }
+                           }
+                        }
+                    }
+                });
+            }
+            
+            // --- Main Blueprint Charts ---
+
+            const revenueCtx = document.getElementById('revenueSourcesChart')?.getContext('2d');
+            if (revenueCtx) {
+                 new Chart(revenueCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['現行制度', '改革案'],
+                        datasets: [
+                            { label: '所得税', data: [18, 0], backgroundColor: PALETTE[0] },
+                            { label: '法人税', data: [17, 15], backgroundColor: PALETTE[1] },
+                            { label: '消費税', data: [24, 82.5], backgroundColor: PALETTE[2] },
+                            { label: '社会保険料', data: [68, 0], backgroundColor: PALETTE[3] },
+                            { label: 'その他', data: [10, 10], backgroundColor: PALETTE[4] }
+                        ]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        scales: {
+                            ...commonChartOptions.scales,
+                            x: { stacked: true, ...commonChartOptions.scales.x },
+                            y: { stacked: true, ticks: { callback: value => value + '兆円' }, ...commonChartOptions.scales.y }
+                        },
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                callbacks: {
+                                    title: tooltipTitleCallback,
+                                    footer: (tooltipItems) => {
+                                        let sum = 0;
+                                        tooltipItems.forEach(function(tooltipItem) {
+                                            sum += tooltipItem.parsed.y;
+                                        });
+                                        return '合計: ' + sum.toFixed(1) + '兆円';
+                                    }
+                                }
+                            },
+                            datalabels: {
+                                color: 'white',
+                                font: {
+                                    size: 10
+                                },
+                                formatter: (value) => {
+                                    return value > 0 ? value.toFixed(1) : '';
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const expenditureCtx = document.getElementById('expenditureComparisonChart')?.getContext('2d');
+            if(expenditureCtx) {
+                const expenditureLabels = ['社会保障', '国債費', '地方交付税', '公共事業', '教育・科学技術', '防衛', 'その他'];
+                new Chart(expenditureCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: expenditureLabels,
+                        datasets: [
+                            {
+                                label: '現行制度 (兆円)',
+                                data: [37, 25, 16, 6.6, 5.4, 5.4, 16.6],
+                                backgroundColor: PALETTE[0],
+                                borderColor: PALETTE[0],
+                                borderWidth: 1
+                            },
+                            {
+                                label: '改革案 (兆円)',
+                                data: [32.5, 22.5, 16, 6, 7.5, 5.5, 10],
+                                backgroundColor: PALETTE[2],
+                                borderColor: PALETTE[2],
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        scales: {
+                            ...commonChartOptions.scales,
+                            y: { ...commonChartOptions.scales.y, ticks: { callback: value => value + '兆円' } }
+                        },
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'end',
+                                font: {
+                                    size: 10
+                                },
+                                formatter: (value) => {
+                                    return value.toFixed(1);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
